@@ -1,18 +1,42 @@
-<div>
-  <h1>Personal Finance Tool</h1>
+<div class="grid">
+  <div class="col">
+    <h1>Personal Finance Tool</h1>
+  </div>
 </div>
 
-<div>
-  <div>
-    <h2>Enter Your Yearly Expenses</h2>
-    
+<pft-monthly-income
+  [monthlyIncome]="(monthlyIncome$ | async)!"
+  (monthlyIncomeChange)="monthlyIncome$.next($event)"
+></pft-monthly-income>
+
+<div class="grid">
+  <div class="col">
+    <pft-expenses
+      title="Yearly"
+      description="Add a description here for yearly expenses."
+      expenseGroupName="yearlyExpense"
+      [expenses]="(yearlyExpenses$ | async)!"
+      (expensesChanged)="yearlyExpenses$.next($event)"
+    ></pft-expenses>
   </div>
 
-  <div>
-    <h2>Enter Your Monthly Expenses</h2>
+  <div class="col">
+    <pft-expenses
+      title="Monthly"
+      description="Add a description here for monthly expenses."
+      expenseGroupName="monthlyExpense"
+      [expenses]="(monthlyExpenses$ | async)!"
+      (expensesChanged)="monthlyExpenses$.next($event)"
+    ></pft-expenses>
   </div>
 
-  <div>
-    <h2>Your Monthly Expenses Checklist</h2>
+  <div class="col">
+    <pft-monthly-expense-checklist
+      [monthlyExpenses]="(combinedMonthlyExpenses$ | async)!"
+      [monthlyIncome]="(monthlyIncome$ | async)!"
+      [totalMonthlyExpensesIncludingYearly]="
+        (totalMonthlyExpensesIncludingYearly$ | async)!
+      "
+    ></pft-monthly-expense-checklist>
   </div>
 </div>

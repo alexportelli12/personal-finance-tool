@@ -1,0 +1,33 @@
+<h2>Monthly Expense Checklist</h2>
+
+<p>description goes here...</p>
+
+<p-table [value]="monthlyExpenses">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Expense</th>
+      <th>Amount</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-expense>
+    <tr>
+      <td>{{ expense.title }}</td>
+      <td>{{ expense.amount | currency : "EUR" : "symbol" : "2.0" }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<h3>
+  Total Monthly Expenses (including yearly expenses):
+  {{
+    totalMonthlyExpensesIncludingYearly | currency : "EUR" : "symbol" : "2.0"
+  }}
+</h3>
+<h3>
+  Remaining Money:
+  {{
+    monthlyIncome - totalMonthlyExpensesIncludingYearly
+      | currency : "EUR" : "symbol" : "2.0"
+  }}
+</h3>
