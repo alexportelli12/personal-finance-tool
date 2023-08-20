@@ -1,0 +1,89 @@
+<p-steps
+  [model]="steps"
+  [readonly]="true"
+  [activeIndex]="activeStepIndex"
+></p-steps>
+
+<!-- STEP 1 -->
+<pft-monthly-income
+  *ngIf="activeStepIndex === 0"
+  [monthlyIncome]="(monthlyIncome$ | async)!"
+  (monthlyIncomeChange)="monthlyIncome$.next($event)"
+></pft-monthly-income>
+
+<!-- STEP 2 -->
+<pft-expenses
+  *ngIf="activeStepIndex === 1"
+  title="Step 2: What are your yearly expenses?"
+  [description]="yearlyExpensesDescription"
+  expenseGroupName="yearlyExpense"
+  [expenses]="(yearlyExpenses$ | async)!"
+  (expensesChanged)="yearlyExpenses$.next($event)"
+></pft-expenses>
+
+<ng-template #yearlyExpensesDescription>
+  <p>
+    Let's take a look at your yearly expenses, like insurance, medical bills,
+    and car repairs. These expenses can be big, so it's important to track them
+    so you can plan ahead.
+  </p>
+
+  <p>
+    <strong>Pro-tip:</strong> Add birthdays and holiday gifts to your yearly
+    expenses. This will help you budget for gifts throughout the year and avoid
+    any surprises. Plus, it will allow you to buy the gifts you want for your
+    loved ones without the added stress of not having planned ahead.
+  </p>
+</ng-template>
+
+<!-- STEP 3 -->
+<pft-expenses
+  *ngIf="activeStepIndex === 2"
+  title="Step 3: What are your monthly expenses?"
+  [description]="monthlyExpensesDescription"
+  expenseGroupName="monthlyExpense"
+  [expenses]="(monthlyExpenses$ | async)!"
+  (expensesChanged)="monthlyExpenses$.next($event)"
+></pft-expenses>
+
+<ng-template #monthlyExpensesDescription>
+  <p>
+    Let's take a look at your monthly expenses, like housing, transportation,
+    food, entertainment, and loans. These expenses can add up quickly, so it's
+    important to track them so you can stay on top of your spending.
+  </p>
+
+  <p>
+    <strong>Pro-tip:</strong> Add a budget for your day-to-day spending,
+    including things like going out and random purchases. This will help you
+    stay within your budget and allow you to spend your money on what you
+    prioritize long term.
+  </p>
+</ng-template>
+
+<!-- STEP 4 -->
+<pft-monthly-expense-checklist
+  *ngIf="activeStepIndex === 3"
+  [monthlyExpenses]="(combinedMonthlyExpenses$ | async)!"
+  [monthlyIncome]="(monthlyIncome$ | async)!"
+  [totalMonthlyExpensesIncludingYearly]="
+    (totalMonthlyExpensesIncludingYearly$ | async)!
+  "
+></pft-monthly-expense-checklist>
+
+<div class="grid">
+  <div class="col">
+    <p-button
+      *ngIf="activeStepIndex !== 0"
+      label="Previous"
+      (onClick)="goToPreviousStep()"
+    ></p-button>
+
+    <p-button
+      *ngIf="activeStepIndex !== 3"
+      label="Next"
+      [disabled]="(nextButtonDisabled$ | async)!"
+      (onClick)="goToNextStep()"
+    ></p-button>
+  </div>
+</div>

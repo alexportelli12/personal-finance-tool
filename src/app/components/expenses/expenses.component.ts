@@ -3,9 +3,11 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
+  TemplateRef,
 } from '@angular/core';
-import { Expense } from '../../models';
+import { EXPENSE_CATEGORIES, Expense } from '../../models';
 import { randomId } from '../../utils';
 
 @Component({
@@ -14,12 +16,12 @@ import { randomId } from '../../utils';
   styleUrls: ['./expenses.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpensesComponent {
+export class ExpensesComponent implements OnInit {
   @Input()
   title: string;
 
   @Input()
-  description: string;
+  description: TemplateRef<void>;
 
   @Input()
   expenseGroupName: string;
@@ -30,19 +32,35 @@ export class ExpensesComponent {
   editingExpenses: { [id: string]: Expense } = {};
   editingRowKeys: { [id: string]: boolean } = {};
 
+  expenseCategories = EXPENSE_CATEGORIES;
+
   @Output()
   expensesChanged: EventEmitter<Expense[]> = new EventEmitter();
+
+  ngOnInit(): void {
+    if (this.expenses.length === 0) {
+      this.addExpense();
+    }
+  }
 
   addExpense() {
     const id = randomId();
 
     this.expenses.push({
       id,
-      title: 'Expense Title',
+      title: '',
       amount: 0,
+      category: EXPENSE_CATEGORIES[10],
     });
 
     this.editingRowKeys[id] = true;
+  }
+
+  deleteExpense(index: number) {
+    this.expenses.splice(index, 1);
+
+    // On delete we always emit the latest expenses
+    this.expensesChanged.emit(this.expenses);
   }
 
   onRowEditInit(expense: Expense) {
