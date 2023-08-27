@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   TemplateRef,
 } from '@angular/core';
@@ -16,7 +15,7 @@ import { randomId } from '../../utils';
   styleUrls: ['./expenses.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpensesComponent implements OnInit {
+export class ExpensesComponent {
   @Input()
   title: string;
 
@@ -34,26 +33,17 @@ export class ExpensesComponent implements OnInit {
 
   expenseCategories = EXPENSE_CATEGORIES;
 
+  currentEditingExpense: Expense | null;
+
   @Output()
   expensesChanged: EventEmitter<Expense[]> = new EventEmitter();
 
-  ngOnInit(): void {
-    if (this.expenses.length === 0) {
-      this.addExpense();
-    }
-  }
-
   addExpense() {
-    const id = randomId();
-
-    this.expenses.push({
-      id,
+    this.currentEditingExpense = {
       title: '',
       amount: 0,
       category: EXPENSE_CATEGORIES[10],
-    });
-
-    this.editingRowKeys[id] = true;
+    };
   }
 
   deleteExpense(index: number) {
@@ -63,24 +53,25 @@ export class ExpensesComponent implements OnInit {
     this.expensesChanged.emit(this.expenses);
   }
 
-  onRowEditInit(expense: Expense) {
-    // We store a copy of the expense on row edit init.
-    this.editingExpenses[expense.id] = { ...expense };
+  editExpense(expense: Expense) {
+    this.currentEditingExpense = { ...expense };
   }
 
-  onRowEditSave(expense: Expense) {
-    // On save we no longer need the expense copy so we delete it.
-    delete this.editingExpenses[expense.id];
+  saveExpense(expense: Expense) {
+    this.currentEditingExpense = null;
 
-    // On save we always emit the latest expenses
+    if (expense.id) {
+      const index = this.expenses.findIndex((e) => e.id === expense.id);
+
+      this.expenses[index] = expense;
+    } else {
+      this.expenses.push({ ...expense, id: randomId() });
+    }
+
     this.expensesChanged.emit(this.expenses);
   }
 
-  onRowEditCancel(expense: Expense, index: number) {
-    // On cancel we set the expense on the selected index back to it's original value
-    this.expenses[index] = this.editingExpenses[expense.id];
-
-    // Then delete the copy taken.
-    delete this.editingExpenses[expense.id];
+  cancelEditExpense() {
+    this.currentEditingExpense = null;
   }
 }

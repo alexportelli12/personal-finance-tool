@@ -1,0 +1,66 @@
+<p-sidebar
+  *ngIf="expense"
+  [visible]="true"
+  position="right"
+  (onHide)="cancelEditExpense.emit()"
+>
+  <div class="grid" pftKeydownStopPropagation>
+    <div class="col-12">
+      <h3>{{ expense.id ? "Add" : "Edit" }} Expense</h3>
+
+      <div class="grid">
+        <div class="col-12">
+          <form #expenseForm="ngForm">
+            <input
+              pInputText
+              type="text"
+              class="p-inputtext-sm"
+              placeholder="Expense Title"
+              name="title"
+              [(ngModel)]="expense.title"
+              [style]="{ width: '100%' }"
+              required
+            />
+
+            <p-dropdown
+              [options]="expenseCategories"
+              optionLabel="title"
+              appendTo="body"
+              class="p-inputtext-sm"
+              name="category"
+              [(ngModel)]="expense.category"
+              [style]="{ width: '100%' }"
+            ></p-dropdown>
+
+            <p-inputNumber
+              mode="currency"
+              currency="EUR"
+              class="p-inputtext-sm"
+              inputStyleClass="w-full"
+              name="amount"
+              [minFractionDigits]="0"
+              [maxFractionDigits]="2"
+              [(ngModel)]="expense.amount"
+              [required]="true"
+            />
+          </form>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-12">
+          <p-button
+            label="Save"
+            (onClick)="saveExpense.emit(expense)"
+            [disabled]="!expenseForm.valid"
+          ></p-button>
+          <p-button
+            label="Cancel"
+            styleClass="p-button-link"
+            (onClick)="cancelEditExpense.emit()"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-sidebar>

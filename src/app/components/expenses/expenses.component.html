@@ -9,10 +9,9 @@
 <div class="grid">
   <div class="col-12">
     <p-table
+      *ngIf="expenses.length > 0"
       dataKey="id"
-      editMode="row"
       [value]="expenses"
-      [editingRowKeys]="editingRowKeys"
       [styleClass]="'p-datatable-sm'"
     >
       <ng-template
@@ -24,61 +23,17 @@
         <tr [pEditableRow]="expense">
           <!-- EXPENSE TITLE -->
           <td [width]="'40%'">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input
-                  pInputText
-                  type="text"
-                  class="p-inputtext-sm"
-                  placeholder="Expense Title"
-                  [(ngModel)]="expense.title"
-                  [style]="{ width: '100%' }"
-                />
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ expense.title }}
-              </ng-template>
-            </p-cellEditor>
+            {{ expense.title }}
           </td>
 
           <!-- EXPENSE CATEGORY -->
           <td [width]="'25%'">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <p-dropdown
-                  [options]="expenseCategories"
-                  optionLabel="title"
-                  appendTo="body"
-                  class="p-inputtext-sm"
-                  [(ngModel)]="expense.category"
-                  [style]="{ width: '100%' }"
-                ></p-dropdown>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ expense.category.title }}
-              </ng-template>
-            </p-cellEditor>
+            {{ expense.category.title }}
           </td>
 
           <!-- EXPENSE AMOUNT -->
           <td [width]="'20%'">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <p-inputNumber
-                  mode="currency"
-                  currency="EUR"
-                  class="p-inputtext-sm"
-                  inputStyleClass="w-full"
-                  name="amount"
-                  [minFractionDigits]="0"
-                  [maxFractionDigits]="2"
-                  [(ngModel)]="expense.amount"
-                />
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ expense.amount | currency : "EUR" : "symbol" : "2.0" }}
-              </ng-template>
-            </p-cellEditor>
+            {{ expense.amount | currency : "EUR" : "symbol" : "2.0" }}
           </td>
 
           <!-- EDIT/SAVE/CANCEL/DELETE BUTTONS -->
@@ -95,35 +50,7 @@
                 tooltipPosition="top"
                 icon="pi pi-pencil"
                 class="p-button-rounded p-button-text p-button-sm"
-                (click)="onRowEditInit(expense)"
-              ></button>
-
-              <!-- SAVE -->
-              <button
-                *ngIf="editing"
-                pButton
-                pRipple
-                type="button"
-                pSaveEditableRow
-                pTooltip="Save"
-                tooltipPosition="top"
-                icon="pi pi-check"
-                class="p-button-rounded p-button-text p-button-success p-button-sm"
-                (click)="onRowEditSave(expense)"
-              ></button>
-
-              <!-- CANCEL -->
-              <button
-                *ngIf="editing"
-                pButton
-                pRipple
-                type="button"
-                pCancelEditableRow
-                pTooltip="Cancel"
-                tooltipPosition="top"
-                icon="pi pi-times"
-                class="p-button-rounded p-button-text p-button-warning p-button-sm"
-                (click)="onRowEditCancel(expense, rowIndex)"
+                (click)="editExpense(expense)"
               ></button>
 
               <!-- DELETE -->
@@ -142,6 +69,10 @@
         </tr>
       </ng-template>
     </p-table>
+
+    <div *ngIf="expenses.length === 0">
+      <h1>No expenses found.</h1>
+    </div>
   </div>
 </div>
 
@@ -150,3 +81,11 @@
     <p-button label="Add Expense" (onClick)="addExpense()"></p-button>
   </div>
 </div>
+
+<!-- EDIT EXPENSE SIDEBAR -->
+<pft-edit-expense
+  *ngIf="currentEditingExpense"
+  [expense]="currentEditingExpense"
+  (saveExpense)="saveExpense($event)"
+  (cancelEditExpense)="cancelEditExpense()"
+></pft-edit-expense>
