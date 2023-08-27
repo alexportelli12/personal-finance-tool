@@ -10,13 +10,16 @@ import { StepsModule } from 'primeng/steps';
 import { MessagesModule } from 'primeng/messages';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
+import { SidebarModule } from 'primeng/sidebar';
 import { ExpensesComponent } from './components/expenses/expenses.component';
 import { MonthlyExpenseChecklistComponent } from './components/monthly-expense-checklist/monthly-expense-checklist.component';
+import { EditExpenseComponent } from './components/edit-expense/edit-expense.component';
 
 import { AppComponent } from './app.component';
 import { MonthlyIncomeComponent } from './components/monthly-income/monthly-income.component';
 import { MainComponent } from './containers/main/main.component';
 import { RouterModule } from '@angular/router';
+import { KeydownStopPropagationDirective } from './directives/keydown-stop-propagation.directive';
 
 const CONTAINERS = [AppComponent, MainComponent];
 
@@ -24,7 +27,10 @@ const COMPONENTS = [
   ExpensesComponent,
   MonthlyExpenseChecklistComponent,
   MonthlyIncomeComponent,
+  EditExpenseComponent,
 ];
+
+const DIRECTIVES = [KeydownStopPropagationDirective];
 
 const PRIMENG_MODULES = [
   ButtonModule,
@@ -35,10 +41,11 @@ const PRIMENG_MODULES = [
   MessagesModule,
   TooltipModule,
   DropdownModule,
+  SidebarModule,
 ];
 
 @NgModule({
-  declarations: [...CONTAINERS, ...COMPONENTS],
+  declarations: [...CONTAINERS, ...COMPONENTS, ...DIRECTIVES],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
