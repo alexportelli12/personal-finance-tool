@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
-import { MenuItem } from "primeng/api";
-import { PFT_STEPS } from "../../../shared/constants";
-import { BehaviorSubject, Observable, combineLatest, map, tap } from "rxjs";
-import { Expense } from "../../../shared/models";
-import { calculateTotalExpenses, divideByTwelve, randomId } from "../../../shared/utils";
+import { MenuItem } from 'primeng/api';
+import { PFT_STEPS } from '../../../shared/constants';
+import { BehaviorSubject, Observable, combineLatest, map, tap } from 'rxjs';
+import { Expense } from '../../../shared/models';
+import { Select, Store } from '@ngxs/store';
+import {
+  ExpensesState,
+  UpdateMonthlyExpenses,
+  UpdateMonthlyIncome,
+  UpdateYearlyExpenses,
+} from '../../../store';
 
 @Component({
   selector: 'pft-expenses-steps-page',
@@ -26,67 +32,47 @@ export class ExpensesStepsPageComponent {
     },
   ];
 
-  protected activeStepIndex$ = new BehaviorSubject<number>(1);
+  protected activeStepIndex$ = new BehaviorSubject<number>(0);
   protected activeStepIndex: number;
 
-  protected monthlyIncome$ = new BehaviorSubject<number>(1000);
+  @Select(ExpensesState.selectMonthlyIncome)
+  protected monthlyIncome$: Observable<number>;
 
-  protected yearlyExpenses$ = new BehaviorSubject<Expense[]>([]);
-  protected monthlyExpenses$ = new BehaviorSubject<Expense[]>([]);
+  @Select(ExpensesState.selectYearlyExpenses)
+  protected yearlyExpenses$: Observable<Expense[]>;
 
+  @Select(ExpensesState.selectMonthlyExpenses)
+  protected monthlyExpenses$: Observable<Expense[]>;
+
+  @Select(ExpensesState.selectTotalYearlyExpenses)
   protected totalYearlyExpenses$: Observable<number>;
+
+  @Select(ExpensesState.selectTotalMonthlyExpenses)
   protected totalMonthlyExpenses$: Observable<number>;
 
   // This property will store the total yearly expenses divided by 12 (per month expense)
+  @Select(ExpensesState.selectYearlyExpensesPerMonth)
   protected yearlyExpensesPerMonth$: Observable<number>;
 
   // This property will store the total monthly expenses INCLUDING the yearly expenses per month
+  @Select(ExpensesState.selectTotalMonthlyExpensesIncludingYearly)
   protected totalMonthlyExpensesIncludingYearly$: Observable<number>;
 
   // This property combines the monthly expenses added by the user,
   // as well as an entry for the total yearly expenses divided by 12.
+  @Select(ExpensesState.selectCombinedMonthlyExpenses)
   protected combinedMonthlyExpenses$: Observable<Expense[]>;
 
   protected nextButtonDisabled$: Observable<boolean>;
 
-  constructor() {
+  constructor(private store: Store) {
+    this.yearlyExpensesPerMonth$.subscribe((yearlyExpensesPerMonth) => {
+      console.log({ yearlyExpensesPerMonth });
+    });
+
     this.activeStepIndex$
       .pipe(tap((index) => (this.activeStepIndex = index)))
       .subscribe();
-
-    this.totalYearlyExpenses$ = this.yearlyExpenses$.pipe(
-      map((yearlyExpenses) => calculateTotalExpenses(yearlyExpenses))
-    );
-
-    this.totalMonthlyExpenses$ = this.monthlyExpenses$.pipe(
-      map((monthlyExpenses) => calculateTotalExpenses(monthlyExpenses))
-    );
-
-    this.yearlyExpensesPerMonth$ = this.totalYearlyExpenses$.pipe(
-      // IMPORTANT:
-      // A flag needs to be added to allow user to select whether or not to round up the result
-      map((totalYearlyExpenses) => divideByTwelve(totalYearlyExpenses, 10))
-    );
-
-    this.totalMonthlyExpensesIncludingYearly$ = combineLatest([
-      this.totalMonthlyExpenses$,
-      this.yearlyExpensesPerMonth$,
-    ]).pipe(
-      map(
-        ([totalMonthlyExpenses, yearlyExpensesPerMonth]) =>
-          totalMonthlyExpenses + yearlyExpensesPerMonth
-      )
-    );
-
-    this.combinedMonthlyExpenses$ = combineLatest([
-      this.monthlyExpenses$,
-      this.yearlyExpensesPerMonth$,
-    ]).pipe(
-      map(([monthlyExpenses, yearlyPerMonth]) => [
-        ...monthlyExpenses,
-        { id: randomId(), title: 'Yearly Expenses', amount: yearlyPerMonth },
-      ])
-    );
 
     this.nextButtonDisabled$ = combineLatest([
       this.activeStepIndex$,
@@ -103,6 +89,18 @@ export class ExpensesStepsPageComponent {
         )
       )
     );
+  }
+
+  updateMonthlyIncome(monthlyIncome: number) {
+    this.store.dispatch(new UpdateMonthlyIncome(monthlyIncome));
+  }
+
+  updateYearlyExpenses(yearlyExpenses: Expense[]) {
+    this.store.dispatch(new UpdateYearlyExpenses(yearlyExpenses));
+  }
+
+  updateMonthlyExpenses(monthlyExpenses: Expense[]) {
+    this.store.dispatch(new UpdateMonthlyExpenses(monthlyExpenses));
   }
 
   goToNextStep() {

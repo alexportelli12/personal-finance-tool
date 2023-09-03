@@ -11,6 +11,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
+import { appStates } from './store';
 
 const CONTAINERS = [AppComponent];
 
@@ -23,7 +24,7 @@ const CONTAINERS = [AppComponent];
     RouterModule,
     AppRoutingModule,
     // NGXS Store Modules
-    NgxsModule.forRoot([], {
+    NgxsModule.forRoot(appStates, {
       developmentMode: !environment.production,
     }),
     NgxsStoragePluginModule.forRoot(),

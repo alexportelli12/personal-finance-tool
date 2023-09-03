@@ -47,10 +47,11 @@ export class ExpensesComponent {
   }
 
   deleteExpense(index: number) {
-    this.expenses.splice(index, 1);
+    const clonedExpenses = [...this.expenses];
+    clonedExpenses.splice(index, 1);
 
     // On delete we always emit the latest expenses
-    this.expensesChanged.emit(this.expenses);
+    this.expensesChanged.emit(clonedExpenses);
   }
 
   editExpense(expense: Expense) {
@@ -58,17 +59,18 @@ export class ExpensesComponent {
   }
 
   saveExpense(expense: Expense) {
+    const clonedExpenses = [...this.expenses];
     this.currentEditingExpense = null;
 
     if (expense.id) {
-      const index = this.expenses.findIndex((e) => e.id === expense.id);
+      const index = clonedExpenses.findIndex((e) => e.id === expense.id);
 
-      this.expenses[index] = expense;
+      clonedExpenses[index] = expense;
     } else {
-      this.expenses.push({ ...expense, id: randomId() });
+      clonedExpenses.push({ ...expense, id: randomId() });
     }
 
-    this.expensesChanged.emit(this.expenses);
+    this.expensesChanged.emit(clonedExpenses);
   }
 
   cancelEditExpense() {

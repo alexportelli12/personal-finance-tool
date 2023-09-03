@@ -8,7 +8,7 @@
 <pft-monthly-income
   *ngIf="activeStepIndex === 0"
   [monthlyIncome]="(monthlyIncome$ | async)!"
-  (monthlyIncomeChange)="monthlyIncome$.next($event)"
+  (monthlyIncomeChange)="updateMonthlyIncome($event)"
 ></pft-monthly-income>
 
 <!-- STEP 2 -->
@@ -18,7 +18,7 @@
   [description]="yearlyExpensesDescription"
   expenseGroupName="yearlyExpense"
   [expenses]="(yearlyExpenses$ | async)!"
-  (expensesChanged)="yearlyExpenses$.next($event)"
+  (expensesChanged)="updateYearlyExpenses($event)"
 ></pft-expenses>
 
 <ng-template #yearlyExpensesDescription>
@@ -43,7 +43,7 @@
   [description]="monthlyExpensesDescription"
   expenseGroupName="monthlyExpense"
   [expenses]="(monthlyExpenses$ | async)!"
-  (expensesChanged)="monthlyExpenses$.next($event)"
+  (expensesChanged)="updateMonthlyExpenses($event)"
 ></pft-expenses>
 
 <ng-template #monthlyExpensesDescription>
