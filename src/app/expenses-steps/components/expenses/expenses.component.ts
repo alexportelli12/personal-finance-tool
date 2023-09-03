@@ -6,8 +6,8 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { EXPENSE_CATEGORIES, Expense } from '../../models';
-import { randomId } from '../../utils';
+import { EXPENSE_CATEGORIES, Expense } from '../../../shared/models';
+import { randomId } from '../../../shared/utils';
 
 @Component({
   selector: 'pft-expenses',

@@ -1,0 +1,1 @@
+export * from './edit-expense/edit-expense.component';

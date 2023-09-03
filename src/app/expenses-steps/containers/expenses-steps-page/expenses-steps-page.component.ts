@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, map, tap } from 'rxjs';
-import { Expense } from '../../models';
-import { calculateTotalExpenses, divideByTwelve, randomId } from '../../utils';
-import { MenuItem } from 'primeng/api';
-import { PFT_STEPS } from '../../constants';
+import { MenuItem } from "primeng/api";
+import { PFT_STEPS } from "../../../shared/constants";
+import { BehaviorSubject, Observable, combineLatest, map, tap } from "rxjs";
+import { Expense } from "../../../shared/models";
+import { calculateTotalExpenses, divideByTwelve, randomId } from "../../../shared/utils";
 
 @Component({
-  selector: 'pft-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.less'],
+  selector: 'pft-expenses-steps-page',
+  templateUrl: './expenses-steps-page.component.html',
+  styleUrls: ['./expenses-steps-page.component.less'],
 })
-export class MainComponent {
+export class ExpensesStepsPageComponent {
   protected steps: MenuItem[] = [
     {
       label: PFT_STEPS.MONTHLY_INCOME.title,
