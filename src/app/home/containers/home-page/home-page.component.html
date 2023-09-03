@@ -1,7 +1,11 @@
-<h1>
-  Make your first step in taking control of your money by looking at the bigger
-  picture into where you're spending it, and start prioritising where you should
-  spend it.
-</h1>
+<ng-container *ngIf="!loading">
+  <h1>
+    Make your first step in taking control of your money by looking at the
+    bigger picture into where you're spending it, and start prioritising where
+    you should spend it.
+  </h1>
 
-<p-button label="Get Started" routerLink="/expenses-steps"></p-button>
+  <p-button label="Get Started" routerLink="/expenses-steps"></p-button>
+</ng-container>
+
+<ng-container *ngIf="loading">Loading...</ng-container>

@@ -61,16 +61,6 @@
   </p>
 </ng-template>
 
-<!-- STEP 4 -->
-<!-- <pft-monthly-expense-checklist
-  *ngIf="activeStepIndex === 3"
-  [monthlyExpenses]="(combinedMonthlyExpenses$ | async)!"
-  [monthlyIncome]="(monthlyIncome$ | async)!"
-  [totalMonthlyExpensesIncludingYearly]="
-    (totalMonthlyExpensesIncludingYearly$ | async)!
-  "
-></pft-monthly-expense-checklist> -->
-
 <div class="grid">
   <div class="col">
     <p-button
@@ -80,10 +70,17 @@
     ></p-button>
 
     <p-button
-      *ngIf="activeStepIndex !== 3"
+      *ngIf="activeStepIndex !== 2"
       label="Next"
       [disabled]="(nextButtonDisabled$ | async)!"
       (onClick)="goToNextStep()"
+    ></p-button>
+
+    <p-button
+      *ngIf="activeStepIndex === 2"
+      label="Finish Steps"
+      [disabled]="(nextButtonDisabled$ | async)!"
+      (click)="goToYourExpensesPage()"
     ></p-button>
   </div>
 </div>

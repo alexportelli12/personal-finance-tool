@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import {
   AddMonthlyExpense,
   AddYearlyExpense,
+  UpdateHasGoneThroughSteps,
   UpdateMonthlyExpenses,
   UpdateMonthlyIncome,
   UpdateYearlyExpenses,
@@ -132,5 +133,13 @@ export class ExpensesState {
     patchState({
       monthlyExpenses: [...getState().monthlyExpenses, expense],
     });
+  }
+
+  @Action(UpdateHasGoneThroughSteps)
+  updateHasGoneThroughSteps(
+    { patchState }: StateContext<ExpensesStateModel>,
+    { hasGoneThroughSteps }: UpdateHasGoneThroughSteps
+  ) {
+    patchState({ hasGoneThroughSteps });
   }
 }

@@ -6,10 +6,12 @@ import { Expense } from '../../../shared/models';
 import { Select, Store } from '@ngxs/store';
 import {
   ExpensesState,
+  UpdateHasGoneThroughSteps,
   UpdateMonthlyExpenses,
   UpdateMonthlyIncome,
   UpdateYearlyExpenses,
 } from '../../../store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pft-expenses-steps-page',
@@ -27,9 +29,6 @@ export class ExpensesStepsPageComponent {
     {
       label: PFT_STEPS.MONTHLY_EXPENSES.title,
     },
-    {
-      label: PFT_STEPS.OVERVIEW.title,
-    },
   ];
 
   protected activeStepIndex$ = new BehaviorSubject<number>(0);
@@ -44,32 +43,9 @@ export class ExpensesStepsPageComponent {
   @Select(ExpensesState.selectMonthlyExpenses)
   protected monthlyExpenses$: Observable<Expense[]>;
 
-  @Select(ExpensesState.selectTotalYearlyExpenses)
-  protected totalYearlyExpenses$: Observable<number>;
-
-  @Select(ExpensesState.selectTotalMonthlyExpenses)
-  protected totalMonthlyExpenses$: Observable<number>;
-
-  // This property will store the total yearly expenses divided by 12 (per month expense)
-  @Select(ExpensesState.selectYearlyExpensesPerMonth)
-  protected yearlyExpensesPerMonth$: Observable<number>;
-
-  // This property will store the total monthly expenses INCLUDING the yearly expenses per month
-  @Select(ExpensesState.selectTotalMonthlyExpensesIncludingYearly)
-  protected totalMonthlyExpensesIncludingYearly$: Observable<number>;
-
-  // This property combines the monthly expenses added by the user,
-  // as well as an entry for the total yearly expenses divided by 12.
-  @Select(ExpensesState.selectCombinedMonthlyExpenses)
-  protected combinedMonthlyExpenses$: Observable<Expense[]>;
-
   protected nextButtonDisabled$: Observable<boolean>;
 
-  constructor(private store: Store) {
-    this.yearlyExpensesPerMonth$.subscribe((yearlyExpensesPerMonth) => {
-      console.log({ yearlyExpensesPerMonth });
-    });
-
+  constructor(private store: Store, private router: Router) {
     this.activeStepIndex$
       .pipe(tap((index) => (this.activeStepIndex = index)))
       .subscribe();
@@ -109,6 +85,11 @@ export class ExpensesStepsPageComponent {
 
   goToPreviousStep() {
     this.activeStepIndex$.next(this.activeStepIndex - 1);
+  }
+
+  goToYourExpensesPage() {
+    this.router.navigate(['/your-expenses']);
+    this.store.dispatch(new UpdateHasGoneThroughSteps(true));
   }
 
   private nextButtonDisabled(

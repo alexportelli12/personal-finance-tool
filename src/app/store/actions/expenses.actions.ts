@@ -36,3 +36,8 @@ export class RemoveMonthlyExpense {
   static readonly type = '[Expenses] Remove Monthly Expense';
   constructor(public expenseId: string) {}
 }
+
+export class UpdateHasGoneThroughSteps {
+  static readonly type = '[Expenses] Update Has Gone Through Steps';
+  constructor(public hasGoneThroughSteps: boolean) {}
+}
