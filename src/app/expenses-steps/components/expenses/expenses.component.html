@@ -21,26 +21,44 @@
         let-rowIndex="rowIndex"
       >
         <tr [pEditableRow]="expense">
-          <!-- EXPENSE TITLE -->
-          <td [width]="'40%'">
-            {{ expense.title }}
-          </td>
+          <td [width]="'60%'">
+            <!-- EXPENSE TITLE -->
+            <h3>{{ expense.title }}</h3>
 
-          <!-- EXPENSE CATEGORY -->
-          <td [width]="'25%'">
-            {{ expense.category.title }}
+            <!-- EXPENSE CATEGORY -->
+            <p-tag
+              [value]="expense.category.title"
+              [style]="{ background: expense.category.color }"
+            ></p-tag>
+
+            <!-- <div>{{ expense.category.title }}</div> -->
           </td>
 
           <!-- EXPENSE AMOUNT -->
           <td [width]="'20%'">
-            {{ expense.amount | currency : "EUR" : "symbol" : "2.0" }}
+            <h3>{{ expense.amount | currency : "EUR" : "symbol" : "2.0" }}</h3>
           </td>
 
           <!-- EDIT/SAVE/CANCEL/DELETE BUTTONS -->
-          <td [width]="'15%'" style="text-align: right">
+          <td [width]="'20%'" style="text-align: right">
             <div class="flex align-items-center justify-content-center gap-2">
-              <!-- EDIT -->
+              <p-menu
+                #menu
+                [model]="menuItems"
+                [popup]="true"
+              ></p-menu>
+
               <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-ellipsis-v"
+                class="p-button-rounded p-button-text p-button-sm"
+                (click)="menu.toggle($event)"
+              ></button>
+
+              <!-- EDIT -->
+              <!-- <button
                 *ngIf="!editing"
                 pButton
                 pRipple
@@ -51,10 +69,10 @@
                 icon="pi pi-pencil"
                 class="p-button-rounded p-button-text p-button-sm"
                 (click)="editExpense(expense)"
-              ></button>
+              ></button> -->
 
               <!-- DELETE -->
-              <button
+              <!-- <button
                 pButton
                 pRipple
                 pTooltip="Delete Expense"
@@ -63,7 +81,7 @@
                 icon="pi pi-trash"
                 class="p-button-rounded p-button-text p-button-danger ml-2 p-button-sm"
                 (click)="deleteExpense(rowIndex)"
-              ></button>
+              ></button> -->
             </div>
           </td>
         </tr>

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { EXPENSE_CATEGORIES, Expense } from '../../../shared/models';
 import { randomId } from '../../../shared/utils';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'pft-expenses',
@@ -34,6 +35,23 @@ export class ExpensesComponent {
   expenseCategories = EXPENSE_CATEGORIES;
 
   currentEditingExpense: Expense | null;
+
+  menuItems: MenuItem[] = [
+    {
+      label: 'Update',
+      icon: 'pi pi-refresh',
+      command: () => {
+        console.log(this);
+      },
+    },
+    {
+      label: 'Delete',
+      icon: 'pi pi-times',
+      command: () => {
+        console.log(this);
+      },
+    },
+  ];
 
   @Output()
   expensesChanged: EventEmitter<Expense[]> = new EventEmitter();

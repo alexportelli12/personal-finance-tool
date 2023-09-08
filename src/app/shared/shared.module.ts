@@ -14,6 +14,8 @@ import { RouterModule } from '@angular/router';
 import { EditExpenseComponent } from './components';
 import { KeydownStopPropagationDirective } from './directives';
 import { CheckboxModule } from 'primeng/checkbox';
+import { TagModule } from 'primeng/tag';
+import { MenuModule } from 'primeng/menu';
 
 const PRIMENG_MODULES = [
   ButtonModule,
@@ -26,6 +28,8 @@ const PRIMENG_MODULES = [
   DropdownModule,
   SidebarModule,
   CheckboxModule,
+  TagModule,
+  MenuModule,
 ];
 
 const COMPONENTS = [EditExpenseComponent];
