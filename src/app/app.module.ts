@@ -1,57 +1,37 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ButtonModule } from 'primeng/button';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { TableModule } from 'primeng/table';
-import { InputTextModule } from 'primeng/inputtext';
-import { StepsModule } from 'primeng/steps';
-import { MessagesModule } from 'primeng/messages';
-import { TooltipModule } from 'primeng/tooltip';
-import { DropdownModule } from 'primeng/dropdown';
-import { SidebarModule } from 'primeng/sidebar';
-import { ExpensesComponent } from './components/expenses/expenses.component';
-import { MonthlyExpenseChecklistComponent } from './components/monthly-expense-checklist/monthly-expense-checklist.component';
-import { EditExpenseComponent } from './components/edit-expense/edit-expense.component';
 
 import { AppComponent } from './app.component';
-import { MonthlyIncomeComponent } from './components/monthly-income/monthly-income.component';
-import { MainComponent } from './containers/main/main.component';
 import { RouterModule } from '@angular/router';
-import { KeydownStopPropagationDirective } from './directives/keydown-stop-propagation.directive';
+import { NgxsModule } from '@ngxs/store';
+import { environment } from '../environments/environment';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { AppRoutingModule } from './app-routing.module';
+import { CommonModule } from '@angular/common';
+import { appStates } from './store';
 
-const CONTAINERS = [AppComponent, MainComponent];
-
-const COMPONENTS = [
-  ExpensesComponent,
-  MonthlyExpenseChecklistComponent,
-  MonthlyIncomeComponent,
-  EditExpenseComponent,
-];
-
-const DIRECTIVES = [KeydownStopPropagationDirective];
-
-const PRIMENG_MODULES = [
-  ButtonModule,
-  InputNumberModule,
-  InputTextModule,
-  TableModule,
-  StepsModule,
-  MessagesModule,
-  TooltipModule,
-  DropdownModule,
-  SidebarModule,
-];
+const CONTAINERS = [AppComponent];
 
 @NgModule({
-  declarations: [...CONTAINERS, ...COMPONENTS, ...DIRECTIVES],
+  declarations: [...CONTAINERS],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
-    RouterModule.forRoot([]),
-    ...PRIMENG_MODULES,
+    RouterModule,
+    AppRoutingModule,
+    // NGXS Store Modules
+    NgxsModule.forRoot(appStates, {
+      developmentMode: !environment.production,
+    }),
+    NgxsStoragePluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({ disabled: environment.production }),
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      name: 'Personal Finance Tool - Redux Devtools',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

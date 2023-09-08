@@ -1,0 +1,11 @@
+<h2>Monthly Expense Checklist</h2>
+
+<p>description goes here...</p>
+
+<pft-your-expenses
+  [monthlyExpenses]="(combinedMonthlyExpenses$ | async)!"
+  [totalMonthlyExpensesIncludingYearly]="
+    (totalMonthlyExpensesIncludingYearly$ | async)!
+  "
+  [monthlyIncome]="(monthlyIncome$ | async)!"
+></pft-your-expenses>

@@ -24,3 +24,21 @@ export const divideByTwelve = (
 
   return divided;
 };
+
+export const yearlyExpensesPerMonth = (
+  yearlyExpenses: Expense[],
+  roundUp: number | null = null
+): number => {
+  return divideByTwelve(calculateTotalExpenses(yearlyExpenses), roundUp);
+};
+
+export const totalMonthlyExpensesIncludingYearly = (
+  yearlyExpenses: Expense[],
+  monthlyExpenses: Expense[],
+  roundUp: number | null = null
+): number => {
+  return (
+    divideByTwelve(calculateTotalExpenses(yearlyExpenses), roundUp) +
+    calculateTotalExpenses(monthlyExpenses)
+  );
+};
