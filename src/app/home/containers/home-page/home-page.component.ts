@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { ExpensesState } from '../../../store';
-import { Observable, take } from 'rxjs';
+import { Observable, delay, take, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,12 +16,18 @@ export class HomePageComponent {
   protected loading = true;
 
   constructor(private router: Router) {
-    this.hasGoneThroughSteps$.pipe(take(1)).subscribe((hasGoneThroughSteps) => {
-      if (hasGoneThroughSteps) {
-        this.router.navigate(['your-expenses']);
-      }
-
-      this.loading = false;
-    });
+    this.hasGoneThroughSteps$
+      .pipe(
+        delay(500),
+        tap((hasGoneThroughSteps) => {
+          if (hasGoneThroughSteps) {
+            this.router.navigate(['your-expenses']);
+          } else {
+            this.loading = false;
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 }

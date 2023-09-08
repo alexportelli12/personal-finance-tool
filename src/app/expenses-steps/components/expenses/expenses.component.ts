@@ -58,9 +58,10 @@ export class ExpensesComponent {
     this.currentEditingExpense = { ...expense };
   }
 
-  saveExpense(expense: Expense) {
+  saveExpense(saveExpense: { expense: Expense; createAnother: boolean }) {
+    const { expense, createAnother } = saveExpense;
+
     const clonedExpenses = [...this.expenses];
-    this.currentEditingExpense = null;
 
     if (expense.id) {
       const index = clonedExpenses.findIndex((e) => e.id === expense.id);
@@ -68,6 +69,12 @@ export class ExpensesComponent {
       clonedExpenses[index] = expense;
     } else {
       clonedExpenses.push({ ...expense, id: randomId() });
+    }
+
+    if (!createAnother) {
+      this.currentEditingExpense = null;
+    } else {
+      this.addExpense();
     }
 
     this.expensesChanged.emit(clonedExpenses);

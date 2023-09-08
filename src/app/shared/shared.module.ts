@@ -13,6 +13,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { RouterModule } from '@angular/router';
 import { EditExpenseComponent } from './components';
 import { KeydownStopPropagationDirective } from './directives';
+import { CheckboxModule } from 'primeng/checkbox';
 
 const PRIMENG_MODULES = [
   ButtonModule,
@@ -24,6 +25,7 @@ const PRIMENG_MODULES = [
   TooltipModule,
   DropdownModule,
   SidebarModule,
+  CheckboxModule,
 ];
 
 const COMPONENTS = [EditExpenseComponent];
