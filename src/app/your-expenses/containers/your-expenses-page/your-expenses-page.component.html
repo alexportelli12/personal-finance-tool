@@ -1,11 +1,38 @@
-<h2>Monthly Expense Checklist</h2>
+<div class="grid">
+  <div class="col-3"></div>
+  <div class="col-9">
+    <h2>Your Expenses Dashboard</h2>
 
-<p>description goes here...</p>
+    <p>
+      Congratulations on taking the first step to taking control of your
+      finances! By tracking your monthly income and expenses, you've created a
+      clear picture of your financial situation. This is the first step on the
+      road to financial freedom.
+    </p>
 
-<pft-your-expenses
-  [monthlyExpenses]="(combinedMonthlyExpenses$ | async)!"
-  [totalMonthlyExpensesIncludingYearly]="
-    (totalMonthlyExpensesIncludingYearly$ | async)!
-  "
-  [monthlyIncome]="(monthlyIncome$ | async)!"
-></pft-your-expenses>
+    <p>
+      The picture you've painted may not be pretty, but it's important to be
+      honest with yourself about your finances. The only way to improve your
+      financial situation is to know where you stand.
+    </p>
+
+    <p>
+      Once you have a clear understanding of your finances, you can start to
+      create a plan to help you prioritize where you want your money to go. This
+      may involve making some changes to your spending habits, but it's worth it
+      to achieve financial freedom.
+    </p>
+
+    <div class="grid">
+      <div class="col-12">
+        <pft-your-expenses
+          [monthlyExpenses]="(combinedMonthlyExpenses$ | async)!"
+          [totalMonthlyExpensesIncludingYearly]="
+            (totalMonthlyExpensesIncludingYearly$ | async)!
+          "
+          [monthlyIncome]="(monthlyIncome$ | async)!"
+        ></pft-your-expenses>
+      </div>
+    </div>
+  </div>
+</div>

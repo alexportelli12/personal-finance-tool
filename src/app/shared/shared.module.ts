@@ -16,6 +16,8 @@ import { KeydownStopPropagationDirective } from './directives';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TagModule } from 'primeng/tag';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { CardModule } from 'primeng/card';
+import { ChartModule } from 'primeng/chart';
 
 const PRIMENG_MODULES = [
   ButtonModule,
@@ -30,6 +32,8 @@ const PRIMENG_MODULES = [
   CheckboxModule,
   TagModule,
   OverlayPanelModule,
+  CardModule,
+  ChartModule,
 ];
 
 const COMPONENTS = [EditExpenseComponent];

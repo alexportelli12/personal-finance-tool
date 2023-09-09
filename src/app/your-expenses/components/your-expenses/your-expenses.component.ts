@@ -16,4 +16,26 @@ export class YourExpensesComponent {
 
   @Input()
   monthlyIncome: number;
+
+  data = {
+    labels: ['A', 'B', 'C'],
+    datasets: [
+      {
+        data: [540, 325, 702],
+        backgroundColor: ['black', 'blue', 'yellow'],
+        hoverBackgroundColor: ['orange', 'green', 'red'],
+      },
+    ],
+  };
+
+  options = {
+    plugins: {
+      legend: {
+        labels: {
+          usePointStyle: true,
+          color: 'purple',
+        },
+      },
+    },
+  };
 }
