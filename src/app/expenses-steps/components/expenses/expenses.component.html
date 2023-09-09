@@ -30,58 +30,49 @@
               [value]="expense.category.title"
               [style]="{ background: expense.category.color }"
             ></p-tag>
-
-            <!-- <div>{{ expense.category.title }}</div> -->
           </td>
 
           <!-- EXPENSE AMOUNT -->
-          <td [width]="'20%'">
+          <td [width]="'30%'">
             <h3>{{ expense.amount | currency : "EUR" : "symbol" : "2.0" }}</h3>
           </td>
 
           <!-- EDIT/SAVE/CANCEL/DELETE BUTTONS -->
-          <td [width]="'20%'" style="text-align: right">
+          <td [width]="'10%'" style="text-align: right">
             <div class="flex align-items-center justify-content-center gap-2">
-              <p-menu
-                #menu
-                [model]="menuItems"
-                [popup]="true"
-              ></p-menu>
-
               <button
                 pButton
                 pRipple
                 type="button"
                 icon="pi pi-ellipsis-v"
                 class="p-button-rounded p-button-text p-button-sm"
-                (click)="menu.toggle($event)"
+                (click)="expenseMenu.toggle($event)"
               ></button>
 
-              <!-- EDIT -->
-              <!-- <button
-                *ngIf="!editing"
-                pButton
-                pRipple
-                type="button"
-                pInitEditableRow
-                pTooltip="Edit Expense"
-                tooltipPosition="top"
-                icon="pi pi-pencil"
-                class="p-button-rounded p-button-text p-button-sm"
-                (click)="editExpense(expense)"
-              ></button> -->
-
-              <!-- DELETE -->
-              <!-- <button
-                pButton
-                pRipple
-                pTooltip="Delete Expense"
-                tooltipPosition="top"
-                type="button"
-                icon="pi pi-trash"
-                class="p-button-rounded p-button-text p-button-danger ml-2 p-button-sm"
-                (click)="deleteExpense(rowIndex)"
-              ></button> -->
+              <p-overlayPanel #expenseMenu>
+                <ng-template pTemplate="content">
+                  <ul>
+                    <li>
+                      <!-- EDIT -->
+                      <p-button
+                        label="Edit"
+                        icon="pi pi-pencil"
+                        styleClass="p-button-link"
+                        (click)="editExpense(expense)"
+                      ></p-button>
+                    </li>
+                    <li>
+                      <!-- DELETE -->
+                      <p-button
+                        label="Delete"
+                        icon="pi pi-trash"
+                        styleClass="p-button-link p-button-danger"
+                        (click)="deleteExpense(rowIndex)"
+                      ></p-button>
+                    </li>
+                  </ul>
+                </ng-template>
+              </p-overlayPanel>
             </div>
           </td>
         </tr>

@@ -36,23 +36,6 @@ export class ExpensesComponent {
 
   currentEditingExpense: Expense | null;
 
-  menuItems: MenuItem[] = [
-    {
-      label: 'Update',
-      icon: 'pi pi-refresh',
-      command: () => {
-        console.log(this);
-      },
-    },
-    {
-      label: 'Delete',
-      icon: 'pi pi-times',
-      command: () => {
-        console.log(this);
-      },
-    },
-  ];
-
   @Output()
   expensesChanged: EventEmitter<Expense[]> = new EventEmitter();
 

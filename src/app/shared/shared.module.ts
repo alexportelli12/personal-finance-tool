@@ -15,7 +15,7 @@ import { EditExpenseComponent } from './components';
 import { KeydownStopPropagationDirective } from './directives';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TagModule } from 'primeng/tag';
-import { MenuModule } from 'primeng/menu';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 const PRIMENG_MODULES = [
   ButtonModule,
@@ -29,7 +29,7 @@ const PRIMENG_MODULES = [
   SidebarModule,
   CheckboxModule,
   TagModule,
-  MenuModule,
+  OverlayPanelModule,
 ];
 
 const COMPONENTS = [EditExpenseComponent];
