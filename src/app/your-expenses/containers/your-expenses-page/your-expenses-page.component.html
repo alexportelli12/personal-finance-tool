@@ -1,11 +1,8 @@
-<h2>Monthly Expense Checklist</h2>
-
-<p>description goes here...</p>
-
-<pft-your-expenses
-  [monthlyExpenses]="(combinedMonthlyExpenses$ | async)!"
-  [totalMonthlyExpensesIncludingYearly]="
-    (totalMonthlyExpensesIncludingYearly$ | async)!
-  "
-  [monthlyIncome]="(monthlyIncome$ | async)!"
-></pft-your-expenses>
+<div class="grid">
+  <div class="col-3">
+    <p-menu [model]="menuItems"></p-menu>
+  </div>
+  <div class="col-9">
+    <router-outlet></router-outlet>
+  </div>
+</div>

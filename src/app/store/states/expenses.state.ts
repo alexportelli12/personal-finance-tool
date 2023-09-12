@@ -84,7 +84,6 @@ export class ExpensesState {
     return [
       ...state.monthlyExpenses,
       {
-        // id: randomId(),
         title: 'Yearly Expenses',
         amount: yearlyExpensesPerMonth(state.yearlyExpenses, 10),
       },

@@ -10,8 +10,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./your-expenses-page.component.less'],
 })
 export class YourExpensesPageComponent {
-  @Select(ExpensesState.selectMonthlyIncome)
-  protected monthlyIncome$: Observable<number>;
 
   @Select(ExpensesState.selectTotalYearlyExpenses)
   protected totalYearlyExpenses$: Observable<number>;
@@ -23,12 +21,27 @@ export class YourExpensesPageComponent {
   @Select(ExpensesState.selectYearlyExpensesPerMonth)
   protected yearlyExpensesPerMonth$: Observable<number>;
 
-  // This property will store the total monthly expenses INCLUDING the yearly expenses per month
-  @Select(ExpensesState.selectTotalMonthlyExpensesIncludingYearly)
-  protected totalMonthlyExpensesIncludingYearly$: Observable<number>;
 
-  // This property combines the monthly expenses added by the user,
-  // as well as an entry for the total yearly expenses divided by 12.
-  @Select(ExpensesState.selectCombinedMonthlyExpenses)
-  protected combinedMonthlyExpenses$: Observable<Expense[]>;
+  protected menuItems = [
+    {
+      label: 'Dashboard',
+      icon: 'pi pi-fw pi-home',
+      routerLink: ['dashboard'],
+    },
+    {
+      label: 'Expense Checklist',
+      icon: 'pi pi-fw pi-check-circle',
+      routerLink: ['monthly-checklist'],
+    },
+    {
+      label: 'Yearly Expenses',
+      icon: 'pi pi-fw pi-euro',
+      routerLink: ['yearly-expenses'],
+    },
+    {
+      label: 'Monthly Expenses',
+      icon: 'pi pi-fw pi-money-bill',
+      routerLink: ['monthly-expenses'],
+    },
+  ];
 }
