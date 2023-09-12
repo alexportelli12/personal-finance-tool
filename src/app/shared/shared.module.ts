@@ -18,6 +18,7 @@ import { TagModule } from 'primeng/tag';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
+import { MenuModule } from 'primeng/menu';
 
 const PRIMENG_MODULES = [
   ButtonModule,
@@ -34,6 +35,7 @@ const PRIMENG_MODULES = [
   OverlayPanelModule,
   CardModule,
   ChartModule,
+  MenuModule,
 ];
 
 const COMPONENTS = [EditExpenseComponent];

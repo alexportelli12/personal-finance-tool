@@ -2,11 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { YourExpensesRoutingModule } from './your-expenses-routing.module';
-import { YourExpensesPageComponent } from './containers/your-expenses-page/your-expenses-page.component';
 import { SharedModule } from '../shared/shared.module';
-import { YourExpensesComponent } from './components/your-expenses/your-expenses.component';
+import {
+  DashboardComponent,
+  MonthlyChecklistComponent,
+  MonthlyExpensesComponent,
+  YearlyExpensesComponent,
+  YourExpensesPageComponent,
+} from './containers';
+import { YourExpensesComponent } from './components';
 
-const CONTAINERS = [YourExpensesPageComponent];
+const CONTAINERS = [
+  YourExpensesPageComponent,
+  DashboardComponent,
+  YearlyExpensesComponent,
+  MonthlyExpensesComponent,
+  MonthlyChecklistComponent,
+];
 const COMPONENTS = [YourExpensesComponent];
 
 @NgModule({
