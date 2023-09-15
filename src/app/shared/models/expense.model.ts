@@ -2,7 +2,7 @@ export interface Expense {
   id?: string;
   title: string;
   amount: number;
-  category?: ExpenseCategory;
+  category: ExpenseCategory;
 }
 
 export interface ExpenseCategory {

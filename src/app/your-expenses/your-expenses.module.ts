@@ -10,7 +10,10 @@ import {
   YearlyExpensesComponent,
   YourExpensesPageComponent,
 } from './containers';
-import { YourExpensesComponent } from './components';
+import {
+  MonthlyExpensesChartComponent,
+  YourExpensesComponent,
+} from './components';
 
 const CONTAINERS = [
   YourExpensesPageComponent,
@@ -19,7 +22,7 @@ const CONTAINERS = [
   MonthlyExpensesComponent,
   MonthlyChecklistComponent,
 ];
-const COMPONENTS = [YourExpensesComponent];
+const COMPONENTS = [YourExpensesComponent, MonthlyExpensesChartComponent];
 
 @NgModule({
   declarations: [...CONTAINERS, ...COMPONENTS],
