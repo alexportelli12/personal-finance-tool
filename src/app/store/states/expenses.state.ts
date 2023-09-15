@@ -86,6 +86,10 @@ export class ExpensesState {
       {
         title: 'Yearly Expenses',
         amount: yearlyExpensesPerMonth(state.yearlyExpenses, 10),
+        category: {
+          title: '📅 Yearly Expenses',
+          color: 'black',
+        },
       },
     ];
   }

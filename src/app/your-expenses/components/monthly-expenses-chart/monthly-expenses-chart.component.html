@@ -1,0 +1,22 @@
+<p-card header="Monthly Expenses">
+  <p-selectButton
+    [options]="chartTypes"
+    [(ngModel)]="selectedChartType"
+    optionLabel="label"
+    optionValue="value"
+    (ngModelChange)="onChartTypeChange($event)"
+  ></p-selectButton>
+
+  <ng-container *ngIf="selectedChartType === 'pie'">
+    <p-chart
+      type="pie"
+      [data]="chartData"
+      [options]="chartOptions"
+      #pieChart
+    ></p-chart>
+  </ng-container>
+
+  <ng-container *ngIf="selectedChartType === 'bar'">
+    <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart>
+  </ng-container>
+</p-card>
