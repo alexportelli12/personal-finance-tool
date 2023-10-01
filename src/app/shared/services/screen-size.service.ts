@@ -23,7 +23,7 @@ export class ScreenSizeService {
       window.innerWidth > 768 && window.innerWidth <= 1024
     );
     this.isDesktop$.next(window.innerWidth > 1024 && window.innerWidth <= 1200);
-    this.isLargeDesktop$.next(window.innerWidth >= 1200);
+    this.isLargeDesktop$.next(window.innerWidth > 1200);
   }
 
   private initEventSubscription() {
@@ -36,7 +36,7 @@ export class ScreenSizeService {
           this.isTablet$.next(innerWidth > 480 && innerWidth <= 768);
           this.isSmallDesktop$.next(innerWidth > 768 && innerWidth <= 1024);
           this.isDesktop$.next(innerWidth > 1024 && innerWidth <= 1200);
-          this.isLargeDesktop$.next(innerWidth >= 1200);
+          this.isLargeDesktop$.next(innerWidth > 1200);
         }),
         distinctUntilChanged()
       )
