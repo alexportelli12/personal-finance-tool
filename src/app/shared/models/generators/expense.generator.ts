@@ -13,5 +13,5 @@ export const givenExpenses = (): Expense[] => [
   givenExpense({ id: randomId() }),
   givenExpense({ id: randomId() }),
   givenExpense({ id: randomId() }),
-  givenExpense({ id: randomId() }),
+  givenExpense({ id: randomId(), category: EXPENSE_CATEGORIES[8] }),
 ];

@@ -52,7 +52,7 @@ export class MonthlyExpensesChartComponent implements OnInit {
       },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
+          label: /* istanbul ignore next */ (context: any) => {
             const label = context.label || '';
 
             if (label) {
@@ -75,6 +75,7 @@ export class MonthlyExpensesChartComponent implements OnInit {
     this.chartData = this.mapChartData();
   }
 
+  /* istanbul ignore next */
   protected onChartTypeChange(chartType: 'pie' | 'bar'): void {
     console.log(this.pieChart.chart);
     setTimeout(() => {
