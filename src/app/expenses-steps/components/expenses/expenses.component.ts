@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { EXPENSE_CATEGORIES, Expense } from '../../../shared/models';
 import { randomId } from '../../../shared/utils';
-import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'pft-expenses',

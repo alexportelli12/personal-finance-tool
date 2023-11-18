@@ -5,4 +5,13 @@ describe('KeydownStopPropagationDirective', () => {
     const directive = new KeydownStopPropagationDirective();
     expect(directive).toBeTruthy();
   });
+
+  it('should call stopPropagation on event', () => {
+    const directive = new KeydownStopPropagationDirective();
+    const event = jasmine.createSpyObj('event', ['stopPropagation']);
+    
+    directive.onKeydown(event);
+    
+    expect(event.stopPropagation).toHaveBeenCalled();
+  });
 });
