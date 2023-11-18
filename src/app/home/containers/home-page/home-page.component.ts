@@ -18,8 +18,8 @@ export class HomePageComponent {
   constructor(private router: Router) {
     this.hasGoneThroughSteps$
       .pipe(
-        delay(500),
-        tap((hasGoneThroughSteps) => {
+        // delay(500),
+        tap((hasGoneThroughSteps) => /* istanbul ignore next */ {
           if (hasGoneThroughSteps) {
             this.router.navigate(['your-expenses']);
           } else {
