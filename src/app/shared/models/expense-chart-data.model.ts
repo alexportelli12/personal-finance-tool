@@ -3,7 +3,21 @@ export interface ExpenseChartData {
   datasets: ExpenseChartDataset[];
 }
 
-export interface ExpenseChartDataset {
+export type ExpenseChartDataset =
+  | ExpensePieChartDataset
+  | ExpenseBarChartDataset;
+
+export interface ExpensePieChartDataset {
   data: { amount: number; percentage: string }[];
   backgroundColor: string[];
+}
+
+export interface ExpenseBarChartDataset {
+  data: number[];
+  backgroundColor: string[];
+}
+
+export enum ExpenseChartType {
+  Pie = 'pie',
+  Bar = 'bar',
 }

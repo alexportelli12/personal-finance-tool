@@ -26,12 +26,13 @@ describe('MonthlyExpensesChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set chartData', () => {
-    expect(component['chartData']).toBeTruthy();
+  it('should set chart data for both pie and bar charts', () => {
+    expect(component['pieChartData']).toBeTruthy();
+    expect(component['barChartData']).toBeTruthy();
   });
 
-  it('should map monthlyExpenses to chartData', () => {
-    expect(component['chartData'].datasets[0].data).toEqual([
+  it('should map monthlyExpenses to pieChartData', () => {
+    expect(component['pieChartData'].datasets[0].data).toEqual([
       {
         amount: 300,
         percentage: '75%',
@@ -41,6 +42,10 @@ describe('MonthlyExpensesChartComponent', () => {
         percentage: '25%',
       },
     ]);
+  });
+
+  it('should map monthlyExpenses to barChartData', () => {
+    expect(component['barChartData'].datasets[0].data).toEqual([300, 100]);
   });
 
   it('should map monthlyExpensesGroupedByCategory property', () => {
