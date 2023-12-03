@@ -3,14 +3,13 @@ import {
   Component,
   Input,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import {
   Expense,
   ExpenseCategory,
   ExpenseChartData,
+  ExpenseChartType,
 } from '../../../shared/models';
-import { UIChart } from 'primeng/chart';
 
 @Component({
   selector: 'pft-monthly-expenses-chart',
@@ -22,24 +21,23 @@ export class MonthlyExpensesChartComponent implements OnInit {
   @Input()
   monthlyExpenses: Expense[];
 
-  @ViewChild('pieChart')
-  protected pieChart: UIChart;
+  protected selectedChartType: ExpenseChartType = ExpenseChartType.Pie;
 
-  protected selectedChartType: 'pie' | 'bar' = 'pie';
-  protected chartData: ExpenseChartData;
+  protected pieChartData: ExpenseChartData;
+  protected barChartData: ExpenseChartData;
 
   protected chartTypes = [
     {
       label: 'Pie',
-      value: 'pie',
+      value: ExpenseChartType.Pie,
     },
     {
       label: 'Bar',
-      value: 'bar',
+      value: ExpenseChartType.Bar,
     },
   ];
 
-  protected chartOptions = {
+  protected pieChartOptions = {
     parsing: {
       key: 'amount',
     },
@@ -67,23 +65,40 @@ export class MonthlyExpensesChartComponent implements OnInit {
     },
   };
 
+  protected barChartOptions = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: /* istanbul ignore next */ (context: any) => {
+            const label = context.label || '';
+
+            if (label) {
+              const data = context.raw || 0;
+              return `€${data}`;
+            }
+
+            return '';
+          },
+        },
+      },
+    },
+  };
+
+  protected expenseChartTypeEnum = ExpenseChartType;
+
   private monthlyExpensesGroupedByCategory: ReturnType<
     typeof this.mapMonthlyExpensesGroupedByCategory
   >;
 
   ngOnInit(): void {
-    this.chartData = this.mapChartData();
+    this.pieChartData = this.mapPieChartData();
+    this.barChartData = this.mapBarChartData();
   }
 
-  /* istanbul ignore next */
-  protected onChartTypeChange(chartType: 'pie' | 'bar'): void {
-    console.log(this.pieChart.chart);
-    setTimeout(() => {
-      console.log('setTimeout', this.pieChart.chart);
-    }, 500);
-  }
-
-  private mapChartData(): ExpenseChartData {
+  private mapPieChartData(): ExpenseChartData {
     const groupedByCategory: {
       category: ExpenseCategory;
       totalAmount: number;
@@ -118,6 +133,48 @@ export class MonthlyExpensesChartComponent implements OnInit {
             amount: expense.totalAmount,
             percentage: expense.percentage,
           })),
+          backgroundColor: this.monthlyExpensesGroupedByCategory.map(
+            (expense) => expense.category.color
+          ),
+        },
+      ],
+    };
+  }
+
+  private mapBarChartData(): ExpenseChartData {
+    const groupedByCategory: {
+      category: ExpenseCategory;
+      totalAmount: number;
+    }[] = [];
+
+    this.monthlyExpenses.forEach((expense) => {
+      const category = groupedByCategory.find(
+        (groupedExpense) =>
+          groupedExpense.category.title === expense.category.title
+      );
+
+      if (category) {
+        category.totalAmount += expense.amount;
+      } else {
+        groupedByCategory.push({
+          category: expense.category,
+          totalAmount: expense.amount,
+        });
+      }
+    });
+
+    this.monthlyExpensesGroupedByCategory =
+      this.mapMonthlyExpensesGroupedByCategory();
+
+    return {
+      labels: this.monthlyExpensesGroupedByCategory.map(
+        (expense) => expense.category.title
+      ),
+      datasets: [
+        {
+          data: this.monthlyExpensesGroupedByCategory.map(
+            (expense) => expense.totalAmount
+          ),
           backgroundColor: this.monthlyExpensesGroupedByCategory.map(
             (expense) => expense.category.color
           ),

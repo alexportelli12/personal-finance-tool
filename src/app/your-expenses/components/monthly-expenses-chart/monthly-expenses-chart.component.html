@@ -4,19 +4,21 @@
     [(ngModel)]="selectedChartType"
     optionLabel="label"
     optionValue="value"
-    (ngModelChange)="onChartTypeChange($event)"
   ></p-selectButton>
 
-  <ng-container *ngIf="selectedChartType === 'pie'">
+  <ng-container *ngIf="selectedChartType === expenseChartTypeEnum.Pie">
     <p-chart
-      type="pie"
-      [data]="chartData"
-      [options]="chartOptions"
-      #pieChart
+      [type]="expenseChartTypeEnum.Pie"
+      [data]="pieChartData"
+      [options]="pieChartOptions"
     ></p-chart>
   </ng-container>
 
-  <ng-container *ngIf="selectedChartType === 'bar'">
-    <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart>
+  <ng-container *ngIf="selectedChartType === expenseChartTypeEnum.Bar">
+    <p-chart
+      [type]="expenseChartTypeEnum.Bar"
+      [data]="barChartData"
+      [options]="barChartOptions"
+    ></p-chart>
   </ng-container>
 </p-card>
